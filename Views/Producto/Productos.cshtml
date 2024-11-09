@@ -1,0 +1,14 @@
+﻿@model IEnumerable<_123.Dtos.ProductoDto>
+
+<h2>Lista de Productos</h2>
+<ul>
+    @foreach (var producto in Model)
+    {
+        <li>
+            <strong>@producto.Nombre</strong> - Precio: $@producto.Precio
+            <a href="@Url.Action("DescargarProducto", "Producto", new { id = producto.Id })" class="btn btn-primary">
+                Descargar Detalles
+            </a>
+        </li>
+    }
+</ul>

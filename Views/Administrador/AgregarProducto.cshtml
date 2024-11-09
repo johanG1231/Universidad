@@ -1,0 +1,25 @@
+@model _123.Dtos.ProductoDto
+
+<h2>Agregar Producto</h2>
+
+<form asp-action="AgregarProducto" method="post">
+    <div>
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" />
+        <span asp-validation-for="Nombre"></span>
+    </div>
+    <div>
+        <label asp-for="Precio"></label>
+        <input asp-for="Precio" />
+        <span asp-validation-for="Precio"></span>
+    </div>
+    <div>
+        <label for="ContenidoPersonalizado">Contenido del archivo</label>
+        <textarea asp-for="ContenidoPersonalizado" id="ContenidoPersonalizado"></textarea>
+    </div>
+    <button type="submit">Agregar</button>
+</form>
+
+<div>
+    <a asp-action="Productos">Volver a la lista de productos</a>
+</div>

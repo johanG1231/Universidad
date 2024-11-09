@@ -1,0 +1,144 @@
+body {
+    background-color: #1a1a1a;
+    font-family: 'Press Start 2P', cursive;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.image-button {
+    background-color: transparent;
+    /* Elimina el fondo del botón */
+    border: none;
+    /* Elimina el borde del botón */
+    padding: 0;
+    /* Elimina el padding para que el botón tenga solo la imagen */
+    cursor: pointer;
+    /* Cambia el cursor a mano */
+}
+
+.button-image {
+    width: 50px;
+    /* Ajusta el tamaño de la imagen */
+    height: auto;
+    transform: rotate(180deg);
+    /* Mantiene las proporciones de la imagen */
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    /* Distribuye el contenido al máximo espacio disponible */
+    align-items: center;
+    /* Centra verticalmente */
+    padding: 1rem;
+    background-color: #1a1a1a;
+    /* Ajusta el color del fondo del encabezado */
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #ffcc00;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.Volver-button {
+    width: 50px;
+    transform: rotate(180deg);
+    cursor: pointer;
+}
+
+
+.login-container {
+    background: linear-gradient(135deg, #2e2e2e, #1a1a1a);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+    text-align: center;
+    width: 320px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #ffcc00;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.Volver-button {
+    width: 50px;
+    transform: rotate(180deg);
+}
+
+.input-field {
+    background: #333;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 5px;
+    width: 100%;
+    color: #ffcc00;
+    font-size: 0.8rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.input-field:focus {
+    outline: none;
+    box-shadow: 0 0 12px #ffcc00;
+}
+
+.submit-btn {
+    background: #ffcc00;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.submit-btn:hover {
+    background: #ffdd33;
+    transform: scale(1.05);
+}
+
+.forgot-link {
+    display: block;
+    margin-top: 1.5rem;
+    color: #ffcc00;
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+    color: #ffffff;
+}
+
+.error-message {
+    color: #ff5e5e;
+    font-size: 0.75rem;
+    position: absolute;
+    bottom: -1.2rem;
+    left: 0;
+}

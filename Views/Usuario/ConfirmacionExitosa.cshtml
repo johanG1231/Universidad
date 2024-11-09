@@ -1,0 +1,12 @@
+@model bool
+
+<h2>@(Model ? "Confirmación Exitosa" : "Error en la Confirmación")</h2>
+
+@if (Model)
+{
+    <p>Tu correo ha sido confirmado exitosamente. Ahora puedes iniciar sesión.</p>
+}
+else
+{
+    <p>Hubo un problema confirmando tu correo. El enlace puede haber expirado o ser inválido.</p>
+}
