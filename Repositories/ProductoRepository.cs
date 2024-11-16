@@ -1,4 +1,3 @@
-// Repositories/ProductoRepository.cs
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using _123.Models;
@@ -25,14 +24,28 @@ namespace _123.Repositories
         {
             return await _context.Productos
                 .Where(p => p.Id == id)
-                .Select(p => new ProductoDto { Id = p.Id, Nombre = p.Nombre, Precio = p.Precio })
+                .Select(p => new ProductoDto { Id = p.Id, Nombre = p.Nombre, Precio = p.Precio, Descripcion = p.Descripcion, Archivo = p.Archivo })
                 .FirstOrDefaultAsync();
         }
         public async Task AgregarProducto(Producto producto)
         {
-            // Asegúrate de que el modelo Producto esté correctamente definido
             await _context.Productos.AddAsync(producto);
-            await _context.SaveChangesAsync(); // Guarda los cambios en la base de datos
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task EliminarProducto(int id)
+        {
+            var producto = await _context.Productos.FindAsync(id);
+            if (producto != null)
+            {
+                _context.Productos.Remove(producto);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<List<Producto>> ObtenerTodosLosProductos()
+        {
+            return await _context.Productos.ToListAsync();
         }
     }
 }

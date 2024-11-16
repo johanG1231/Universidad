@@ -1,5 +1,12 @@
 @model bool
+@{
+    Layout = "_Global";
+}
+<head>
 
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
 <h2>@(Model ? "Confirmación Exitosa" : "Error en la Confirmación")</h2>
 
 @if (Model)

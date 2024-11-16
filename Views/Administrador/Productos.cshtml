@@ -1,16 +1,39 @@
 ﻿@model IEnumerable<_123.Dtos.ProductoDto>
+@{
+    Layout = "_Administrador";
+}
+<head>
 
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Register.css" />
+</head>
 <h2>Lista de Productos</h2>
+
 <ul>
     @foreach (var producto in Model)
     {
         <li>
-            <strong>@producto.Nombre</strong> - Precio: $@producto.Precio
-            <a href="@Url.Action("DescargarProducto", "Producto", new { id = producto.Id })" class="btn btn-primary">
-                Descargar Detalles
+            <strong>@producto.Nombre</strong> - Precio: $@producto.Precio -
+            <strong>
+                @if (string.IsNullOrEmpty(producto.Descripcion))
+                {
+                    <span>No disponible</span>
+                }
+                else
+                {
+                    @producto.Descripcion
+                }
+            </strong>
+            <a href="@Url.Action("DescargarProducto", "Administrador", new { id = producto.Id })" class="btn btn-primary">
+                Descargar Archivo
             </a>
+            <form asp-action="EliminarProducto" asp-controller="Administrador" method="post" style="display:inline;">
+                <input type="hidden" name="id" value="@producto.Id" />
+                <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?');">
+                    Eliminar
+                </button>
+            </form>
         </li>
-
     }
-    <a asp-action="AgregarProducto">AgregarProducto</a>
 </ul>

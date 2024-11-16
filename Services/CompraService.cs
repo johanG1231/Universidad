@@ -25,7 +25,9 @@ namespace _123.Services
             {
                 Id = p.Id,
                 Nombre = p.Nombre,
-                Precio = p.Precio
+                Precio = p.Precio,
+                Descripcion = p.Descripcion,
+                Archivo = p.Archivo
             });
         }
         public async Task<ProductoDto> ObtenerProductoPorId(int id)
@@ -34,13 +36,32 @@ namespace _123.Services
         }
         public async Task AgregarProducto(ProductoDto productoDto)
         {
-            var producto = new Producto // Asegúrate de tener el modelo Producto definido
+            var producto = new Producto
             {
                 Nombre = productoDto.Nombre,
-                Precio = productoDto.Precio
+                Precio = productoDto.Precio,
+                Descripcion = productoDto.Descripcion,
+                Archivo = productoDto.Archivo,
             };
 
-            await _productoRepository.AgregarProducto(producto); // Asumiendo que tienes este método en tu repositorio
+            await _productoRepository.AgregarProducto(producto);
         }
+        public async Task EliminarProducto(int id)
+        {
+            await _productoRepository.EliminarProducto(id);
+        }
+        public async Task<List<ProductoDto>> ObtenerTodosLosProductos()
+        {
+            var productos = await _productoRepository.ObtenerTodosLosProductos();
+            return productos.Select(p => new ProductoDto
+            {
+                Id = p.Id,
+                Nombre = p.Nombre,
+                Precio = p.Precio,
+                Descripcion = p.Descripcion,
+                Archivo = p.Archivo
+            }).ToList();
+        }
+
     }
 }

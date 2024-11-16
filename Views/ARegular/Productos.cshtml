@@ -1,0 +1,33 @@
+@model IEnumerable<_123.Dtos.ProductoDto>
+@{
+    Layout = "_ARegular";
+}
+<head>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<h2>Lista de Productos</h2>
+
+
+<ul>
+    @foreach (var producto in Model)
+    {
+        <li>
+            <strong>@producto.Nombre</strong> - Precio: $@producto.Precio
+            <strong>
+                @if (string.IsNullOrEmpty(producto.Descripcion))
+                {
+                    <span>No disponible</span>
+                }
+                else
+                {
+                    @producto.Descripcion
+                }
+            </strong>
+            <a href="@Url.Action("DescargarProducto", "ARegular", new { id = producto.Id })" class="btn btn-primary">
+                Descargar Archivo
+            </a>
+        </li>
+    }
+</ul>

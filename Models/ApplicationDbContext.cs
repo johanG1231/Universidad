@@ -34,36 +34,35 @@ namespace _123.Models
                                 entity.Property(e => e.Confirmado)
                   .IsRequired()
                   .HasDefaultValue(false);
-
-                                // Haz que Token y RestablecerTokenExpira sean opcionales
                                 entity.Property(e => e.Token)
                   .HasMaxLength(256)
-                  .IsRequired(false); // Ahora es opcional
+                  .IsRequired(false);
                                 entity.Property(e => e.RestablecerTokenExpira)
-                  .IsRequired(false); // Ahora es opcional
+                  .IsRequired(false);
 
                                 entity.Property(e => e.FechaCreacion)
                   .IsRequired()
                   .HasDefaultValueSql("GETDATE()");
-
-                                // Haz que FechaActualizacion sea opcional
                                 entity.Property(e => e.FechaActualizacion)
-                  .IsRequired(false); // Ahora es opcional
+                  .IsRequired(false);
                         });
 
                         modelBuilder.Entity<Producto>(entity =>
-    {
-            entity.HasKey(e => e.Id);
-            entity.Property(e => e.Nombre)
-                  .IsRequired()
-                  .HasMaxLength(100);
-            entity.Property(e => e.Precio)
-                  .IsRequired()
-                  .HasColumnType("decimal(18,2)"); // Especifica el tipo decimal con precisión
-            entity.Property(e => e.ContenidoPersonalizado) // Es solo una columna regular, no clave primaria
-                     .HasMaxLength(10000) // Puedes especificar un tamaño si lo necesitas
-                     .IsRequired(false);
-    });
+      {
+              entity.HasKey(e => e.Id);
+              entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+              entity.Property(e => e.Precio)
+                    .IsRequired()
+                    .HasColumnType("decimal(18,2)");
+              entity.Property(e => e.Descripcion)
+                    .HasMaxLength(1000) 
+                    .IsRequired(false);
+              entity.Property(e => e.Archivo)
+                              .HasMaxLength(1000)
+                              .IsRequired(false);
+      });
                 }
 
         }

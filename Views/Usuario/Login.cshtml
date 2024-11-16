@@ -1,21 +1,17 @@
 @model _123.Dtos.LoginDto
 
+@{
+    Layout = "_Global";
+}
+
 <head>
-    <!--<link rel="stylesheet" href="~/css/Login.css" />-->
+
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/Register.css" />
 </head>
 
 <body>
-    <header>
-
-        <a asp-action="Productos">
-            <button class="image-button">
-                <img src="https://cdn-icons-png.flaticon.com/512/724/724820.png" alt="Botón de imagen"
-                    class="button-image">
-            </button>
-        </a>
-
-
-    </header>
 
     <div class="login-container">
 
@@ -42,42 +38,3 @@
 </body>
 
 
-
-<!--<body>
-    <header>
-        <nav>
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">_123</a>
-            <img class="Volver-button" src="https://cdn-icons-png.flaticon.com/512/724/724820.png" alt="">
-        </nav>
-
-    </header>
-    <div class="login-container">
-
-        <h2>Iniciar Sesión</h2>
-
-        <form asp-action="Login" method="post" class="login-form">
-            <div class="form-group">
-                <label for="correo">Correo</label>
-                <input asp-for="Correo" id="correo" class="input-field" />
-                <span asp-validation-for="Correo" class="error-message"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="clave">Clave</label>
-                <input asp-for="Clave" id="clave" class="input-field" type="password" />
-                <span asp-validation-for="Clave" class="error-message"></span>
-            </div>
-
-            <button type="submit" class="submit-btn">Iniciar Sesión</button>
-        </form>
-
-        <a asp-action="ForgotPassword" class="forgot-link">¿Olvidaste tu contraseña?</a>
-        <a asp-action="Register" class="forgot-link">Crear nueva cuenta</a>
-
-        <form asp-action="Register" method="post" class="login-form">
-        <button type="submit" class="submit-btn">Crear nueva cuenta</button>
-    </form>
-
-
-    </div>
-</body>-->

@@ -6,7 +6,8 @@ namespace _123.Models
     public enum RolUsuario
     {
         Regular,
-        Administrador
+        Administrador,
+        Manager
 
     }
     public class Usuario

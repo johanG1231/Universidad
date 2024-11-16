@@ -1,0 +1,22 @@
+@model IEnumerable<_123.Dtos.ProductoDto>
+@{
+    Layout = "_Manager";
+}
+<head>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<h2>Lista de Productos</h2>
+
+
+<ul>
+    @foreach (var producto in Model)  // Iteramos sobre la colección de productos
+{
+    <div>
+        <h2>@producto.Nombre</h2>
+        <p>Precio: @producto.Precio</p>
+        <p>@producto.Descripcion</p>
+    </div>
+}
+</ul>

@@ -16,6 +16,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using BCrypt.Net;
 
 
 namespace _123.Services
@@ -51,16 +52,20 @@ namespace _123.Services
                 return Convert.ToBase64String(bytes);
             }
         }
+        /*public static string HashPassword(string password)
+        {
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+            return hashedPassword;
+        }*/
+
         public async Task<bool> RegistrarAsync(RegistroDto registroDto)
         {
             var usuarioExistente = await _usuarioRepository.ObtenerPorCorreoAsync(registroDto.Correo);
             if (usuarioExistente != null)
-                return false; // Usuario ya existe
+                return false;
 
-            // Hash de la contraseña
             var hashedPassword = HashPassword(registroDto.Clave);
 
-            // Generar token de confirmación
             var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
 
             var usuario = new Usuario
@@ -74,7 +79,6 @@ namespace _123.Services
 
             await _usuarioRepository.CrearAsync(usuario);
 
-            // Enviar correo de confirmación
             var linkConfirmacion = $"http://localhost:5161/Usuario/ConfirmarEmail?correo={usuario.Correo}&token={Uri.EscapeDataString(usuario.Token)}";
             await _emailService.EnviarCorreoAsync(usuario.Correo, "Confirma tu cuenta", $"Confirma tu cuenta haciendo clic en <a href='{linkConfirmacion}'>este enlace</a>.");
 
@@ -106,7 +110,7 @@ namespace _123.Services
         }
 
 
-
+        
 
 
 

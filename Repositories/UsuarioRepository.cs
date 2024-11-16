@@ -30,24 +30,15 @@ namespace _123.Repositories
         public async Task<Usuario> ObtenerPorCorreoAsync(string correo)
         {
             
-            // Verificar que el correo no sea nulo o vacío
             if (string.IsNullOrEmpty(correo))
             {
                 throw new ArgumentException("El correo no puede ser nulo o vacío.", nameof(correo));
             }
 
-            // Buscar el usuario por correo
             var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == correo);
 
-            // Retornar el usuario encontrado o null si no existe
             return usuario;
-        }
-
-        // Otros métodos del repositorio...
-
-
-
-        public async Task ActualizarAsync(Usuario usuario)
+        }        public async Task ActualizarAsync(Usuario usuario)
         {
             _context.Usuarios.Update(usuario);
             await _context.SaveChangesAsync();

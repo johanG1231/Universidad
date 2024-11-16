@@ -1,0 +1,14 @@
+@model _123.Dtos.LoginDto
+
+@{
+    ViewData["Title"] = "Acceso Denegado";
+    Layout = "_Manager";
+}
+<head>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<h2>Acceso Denegado</h2>
+<p>No tienes permiso para ver esta página.</p>
+<a asp-controller="Usuario" asp-action="Login">Volver al inicio de sesión</a>

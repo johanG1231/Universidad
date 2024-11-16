@@ -1,11 +1,17 @@
 @model _123.Dtos.RegistroDto
 
+@{
+    Layout = "_Global";
+}
+
 <head>
+
+    <link rel="stylesheet" href="~/css/site.css" />
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/Register.css" />
 </head>
 
-<!-- Mostrar mensajes de éxito -->
+
 @if (ViewBag.MensajeExito != null)
 {
     <div class="alert alert-success">
@@ -13,7 +19,6 @@
     </div>
 }
 
-<!-- Mostrar errores de validación -->
 @if (!ViewData.ModelState.IsValid)
 {
     <div class="alert alert-danger">
@@ -31,22 +36,22 @@
     <form asp-action="Register" method="post" class="Register-form">
         <div class="form-group">
             <label>Nombre</label>
-            <input asp-for="Nombre" class="input-field"/>
+            <input asp-for="Nombre" class="input-field" />
             <span asp-validation-for="Nombre" class="error-message"></span>
         </div>
         <div class="form-group">
             <label>Correo</label>
-            <input asp-for="Correo" class="input-field"/>
+            <input asp-for="Correo" class="input-field" />
             <span asp-validation-for="Correo" class="error-message"></span>
         </div>
         <div class="form-group">
             <label>Clave</label>
-            <input asp-for="Clave" type="password" class="input-field"/>
+            <input asp-for="Clave" type="password" class="input-field" />
             <span asp-validation-for="Clave" class="error-message"></span>
         </div>
         <div class="form-group">
             <label>Confirmar Clave</label>
-            <input asp-for="ConfirmarClave" type="password" class="input-field"/>
+            <input asp-for="ConfirmarClave" type="password" class="input-field" />
             <span asp-validation-for="ConfirmarClave" class="error-message"></span>
         </div>
         <button type="submit" class="submit-btn">Registrar</button>

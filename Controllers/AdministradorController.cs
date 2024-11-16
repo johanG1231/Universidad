@@ -1,13 +1,18 @@
 using _123.Services;
 using _123.Dtos;
+using _123.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System.IdentityModel.Tokens.Jwt; // Para JwtSecurityTokenHandler
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Threading.Tasks;
+
 public class AdministradorController : Controller
 {
     private readonly ICompraService _compraService;
@@ -18,22 +23,59 @@ public class AdministradorController : Controller
         _compraService = compraService;
         _logger = logger;
     }
+    [HttpGet]
+    public IActionResult Inicio()
+    {
+        if (!UsuarioEsAdministrador())
+        {
+            return RedirectToAction("AccesoDenegado");
+        }
+        var productoDto = new ProductoDto();
+        return View(productoDto);
+    }
+    public IActionResult Privacy()
+    {
+        if (!UsuarioEsAdministrador())
+        {
+            return RedirectToAction("AccesoDenegado");
+        }
+        var productoDto = new ProductoDto();
+        return View(productoDto);
+    }
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
+        return RedirectToAction("Inicio", "Usuario");
+    }
     private bool UsuarioEsAdministrador()
     {
-        var token = HttpContext.Session.GetString("Token"); // Verifica si el token está en la sesión
+        var token = HttpContext.Session.GetString("Token");
         if (string.IsNullOrEmpty(token))
         {
-            return false; // Si no hay token, el usuario no es administrador
+            return false;
         }
 
-        // Aquí deberías decodificar el token para obtener los claims y verificar el rol
         var handler = new JwtSecurityTokenHandler();
-        var jwtToken = handler.ReadJwtToken(token); // Decodifica el token JWT
+        var jwtToken = handler.ReadJwtToken(token);
 
-        // Verifica si el rol del usuario es "Administrador"
         var roleClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
-        return roleClaim != null && roleClaim.Value == "Administrador"; // Retorna true si es administrador
+        return roleClaim != null && roleClaim.Value == "Administrador";
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EliminarProducto(int id)
+    {
+        if (!UsuarioEsAdministrador())
+        {
+            return RedirectToAction("AccesoDenegado");
+        }
+
+        await _compraService.EliminarProducto(id); // Llama al servicio para eliminar el producto
+        _logger.LogInformation($"Producto con ID {id} eliminado.");
+
+        return RedirectToAction("Productos");
     }
 
     [HttpGet]
@@ -41,9 +83,10 @@ public class AdministradorController : Controller
     {
         if (!UsuarioEsAdministrador())
         {
-            return RedirectToAction("AccesoDenegado"); // O la acción que desees
+            return RedirectToAction("AccesoDenegado");
         }
-        return View();
+        var productoDto = new ProductoDto();
+        return View(productoDto);
     }
 
     [HttpPost]
@@ -57,20 +100,27 @@ public class AdministradorController : Controller
 
         if (ModelState.IsValid)
         {
+            _logger.LogInformation($"Producto agregado: {productoDto.Nombre}, Precio: {productoDto.Precio}, Descripción: {productoDto.Descripcion}, Archivo: {productoDto.Archivo}");
+
+            if (string.IsNullOrEmpty(productoDto.Descripcion))
+            {
+                _logger.LogWarning("Descripción del producto está vacía.");
+            }
+
             await _compraService.AgregarProducto(productoDto);
-            _logger.LogInformation($"Producto agregado: {productoDto.Nombre}, Contenido: {productoDto.ContenidoPersonalizado}");
+
             return RedirectToAction("Productos");
         }
+
         return View(productoDto);
     }
-
 
     [HttpGet]
     public async Task<IActionResult> Productos()
     {
         if (!UsuarioEsAdministrador())
         {
-            return RedirectToAction("AccesoDenegado"); // O la acción que desees
+            return RedirectToAction("AccesoDenegado");
         }
 
         var productos = await _compraService.ObtenerProductos();
@@ -79,26 +129,30 @@ public class AdministradorController : Controller
 
     public IActionResult AccesoDenegado()
     {
-        return View(); // Crea una vista que informe al usuario que no tiene acceso
+        return View();
     }
     public async Task<IActionResult> DescargarProducto(int id)
     {
-        var producto = await _compraService.ObtenerProductoPorId(id);
-
-        if (producto == null || string.IsNullOrEmpty(producto.ContenidoPersonalizado))
+        if (!UsuarioEsAdministrador())
         {
-            return NotFound("Producto o contenido no encontrado");
+            return RedirectToAction("AccesoDenegado");
         }
 
-        // Obtener el contenido personalizado del producto
-        string contenidoArchivo = producto.ContenidoPersonalizado;
-        byte[] archivoBytes = System.Text.Encoding.UTF8.GetBytes(contenidoArchivo);
+        var producto = await _compraService.ObtenerProductoPorId(id);
 
-        // Configurar el nombre del archivo con el nombre del producto
-        string nombreArchivo = $"{producto.Nombre}.bat";
+        if (producto == null)
+        {
+            return NotFound("Producto no encontrado");
+        }
 
-        return File(archivoBytes, "text/plain", nombreArchivo);
+        string contenidoBat = $"{producto.Archivo}\n";
+        byte[] archivoBytes = System.Text.Encoding.UTF8.GetBytes(contenidoBat);
+
+        string nombreArchivo = $"{producto.Nombre.Replace(" ", "_")}.bat";
+
+        return File(archivoBytes, "application/octet-stream", nombreArchivo);
     }
+
 
 }
 

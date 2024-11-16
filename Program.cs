@@ -64,7 +64,7 @@ var app = builder.Build();
 // Configurar el pipeline HTTP
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Shared/Error"); // Redirige a la vista de error
     app.UseHsts();
 }
 
@@ -83,6 +83,6 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Usuario}/{action=Login}/{id?}");
+    pattern: "{controller=Usuario}/{action=Inicio}/{id?}");
 
 app.Run();

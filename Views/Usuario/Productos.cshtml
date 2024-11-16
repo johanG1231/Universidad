@@ -1,72 +1,29 @@
+@model IEnumerable<_123.Dtos.ProductoDto>
 @{
-    ViewData["Title"] = "Privacy Policy";
+    Layout = "_Global";
 }
-<h1>@ViewData["Title"]</h1>
-
-<!DOCTYPE html>
-<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Tienda de Productos</title>
-    <link rel="stylesheet" href="shop.css">
+
+    <link rel="stylesheet" href="~/css/site.css" />
+
 </head>
-<body>
+<h2>Lista de Productos</h2>
+<ul>
+    @foreach (var producto in Model)
+    {
+        <li>
+            <strong>@producto.Nombre</strong> - Precio: $@producto.Precio
 
-    <!-- Contenedor principal -->
-    <div class="container">
-        <!-- Título principal -->
-        <h1>Bienvenido a Nuestra Tienda</h1>
-        
-        <!-- Sección de Productos -->
-        <div class="products-grid">
-            <!-- Producto 1 -->
-            <div class="product-card">
-                <img src="producto1.jpg" alt="Producto 1" class="product-image">
-                <h3 class="product-title">Producto 1</h3>
-                <p class="product-price">$20.00</p>
-                <button class="buy-button">Comprar</button>
-            </div>
-
-            <!-- Producto 2 -->
-            <div class="product-card">
-                <img src="producto2.jpg" alt="Producto 2" class="product-image">
-                <h3 class="product-title">Producto 2</h3>
-                <p class="product-price">$35.00</p>
-                <button class="buy-button">Comprar</button>
-            </div>
-
-            <!-- Producto 3 -->
-            <div class="product-card">
-                <img src="producto3.jpg" alt="Producto 3" class="product-image">
-                <h3 class="product-title">Producto 3</h3>
-                <p class="product-price">$50.00</p>
-                <button class="buy-button">Comprar</button>
-            </div>
-
-            <!-- Producto 4 -->
-            <div class="product-card">
-                <img src="producto4.jpg" alt="Producto 4" class="product-image">
-                <h3 class="product-title">Producto 4</h3>
-                <p class="product-price">$15.00</p>
-                <button class="buy-button">Comprar</button>
-            </div>
-
-            <!-- Producto 5 -->
-            <div class="product-card">
-                <img src="producto5.jpg" alt="Producto 5" class="product-image">
-                <h3 class="product-title">Producto 5</h3>
-                <p class="product-price">$25.00</p>
-                <button class="buy-button">Comprar</button>
-            </div>
-        </div>
-
-        <!-- Botón para cargar más productos -->
-        <div class="load-more-container">
-            <button class="load-more-btn">Cargar más productos</button>
-        </div>
-    </div>
-
-</body>
-</html>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a href="@Url.Action("DescargarProducto", "Producto", new { id = producto.Id })" class="btn btn-primary">
+                    Descargar Archivo
+                </a>
+            }
+            else
+            {
+                <span class="text-danger">(Inicia sesión para descargar.)</span>
+            }
+        </li>
+    }
+</ul>
